@@ -5,7 +5,7 @@ stream-handbook的完整中文版本
 
 #nodejs stream 手册
 >写在前面的话:
->如果你正在学习Nodejs，那么流一定是一个你需要掌握的概念。如果你想成为一个Node高手，那么流一定是武功秘籍中不可缺少的一个部分。关于流这个主题，由Node高手substack带来的`stream-handbook`绝对是经典入门读物之一，其在Github上的star数量以上超过了4500个，足以见其权威程度。本文下面的内容将参考自substak的[这篇文章](https://github.com/substack/stream-handbook)。本文也放在Github上，如果你本文觉得对你有帮助，鼓励大家去github上帮我点个赞。[https://github.com/jabez128/stream-handbook](https://github.com/jabez128/stream-handbook)
+>如果你正在学习Nodejs，那么流一定是一个你需要掌握的概念。如果你想成为一个Node高手，那么流一定是武功秘籍中不可缺少的一个部分。关于流这个主题，由Node高手substack带来的`stream-handbook`绝对是经典入门读物之一，其在Github上的star数量以上超过了5200个，足以见其权威程度。本文下面的内容将参考自substak的[这篇文章](https://github.com/substack/stream-handbook)。本文也放在Github上，如果你本文觉得对你有帮助，鼓励大家去github上帮我点个赞。[https://github.com/jabez128/stream-handbook](https://github.com/jabez128/stream-handbook)
 
 
 #引子
@@ -17,7 +17,7 @@ stream-handbook的完整中文版本
 
 在node中，流可以帮助我们将事情的重点分为几份，因为使用流可以帮助我们将实现接口的部分分割成一些连续的接口，这些接口都是可重用的。接着，你可以将一个流的输出口接到另一个流的输入口，然后使用使用一些库来对流实现高级别的控制。
 
-对于小型程序设计(small-program design)以及unix哲学来说，流都是一个重要的主城部分，但是除此之外还有一些重要的事情值得我们思考。永远要记得：十鸟在森林不如一鸟在手里。
+对于小型程序设计(small-program design)以及unix哲学来说，流都是一个重要的组成部分，但是除此之外还有一些重要的事情值得我们思考。永远要记得：十鸟在森林不如一鸟在手里。
 
 ![](https://camo.githubusercontent.com/2b96521b7dab80dc7b850c7e5c2aea752bdf874d/687474703a2f2f737562737461636b2e6e65742f696d616765732f6b65726e696768616e2e706e67)
 
@@ -150,9 +150,9 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 
 在这里我们将字母`a`到`z`推进了rs中，但是只有当数据消耗者出现时，数据才会真正实现推送。
 
-`_read`函数也可以获取一个`size`参数来指明消耗者想要读取多少比特的数据，但是这个参数是可选的。
+`_read`函数也可以获取一个`size`参数来指明消耗者想要读取多少字节的数据，但是这个参数是可选的。
 
-需要注意到的是你可以使用`util.inherit()`来继承一个Readable流。
+需要注意到的是你可以使用`util.inherits()`来继承一个Readable流。
 
 为了说明只有在数据消耗者出现时，`_read`函数才会被调用，我们可以将上面的代码简单的修改一下：
 
@@ -176,7 +176,7 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 	});
 	process.stdout.on('error', process.exit);
 	
-运行上面的代码我们可以发现如果我们只请求5比特的数据，那么`_read`只会运行5次：
+运行上面的代码我们可以发现如果我们只请求5字节的数据，那么`_read`只会运行5次：
 
 	$ node read2.js | head -c5
 	abcde
@@ -207,13 +207,13 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 	<Buffer 67 68 69 0a>
 	null
 
-当数据可用时，`readable`时间将会被触发，此时你可以调用`.read()`方法来从缓存中获取这些数据。
+当数据可用时，`readable`事件将会被触发，此时你可以调用`.read()`方法来从缓存中获取这些数据。
 
 当流结束时，`.read()`将返回`null`，因为此时已经没有更多的字节可以供我们获取了。
 
-你也可以告诉`.read()`方法来返回`n`个比特的数据。虽然所有核心对象中的流都支持这种方式，但是对于对象流来说这种方法并不可用。
+你也可以告诉`.read()`方法来返回`n`个字节的数据。虽然所有核心对象中的流都支持这种方式，但是对于对象流来说这种方法并不可用。
 
-下面是一个例子，在这里我们制定每次读取3个比特的数据：
+下面是一个例子，在这里我们制定每次读取3个字节的数据：
 
 	process.stdin.on('readable', function () {
 	    var buf = process.stdin.read(3);
@@ -310,7 +310,7 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 
 第二个参数`enc`代表编码的字符串，但是只有在`opts.decodeString`为`false`的时候你才可以写一个字符串。
 
-第三个参数，`next(err)`是一个回调函数，使用这个回调函数你可以告诉数据消耗者可以写更多的数据。你可以有选择性的川籍哪一个错误对象`error`，这时会在流实体上出发一个`emit`事件。
+第三个参数，`next(err)`是一个回调函数，使用这个回调函数你可以告诉数据消耗者可以写更多的数据。你可以有选择性的传递哪一个错误对象`error`，这时会在流实体上出发一个`emit`事件。
 
 在从一个readable流向一个writable流传数据的过程中，数据会自动被转换为`Buffer`对象，除非你在创建writable流的时候制定了`decodeStrings`参数为`false`,`Writable({decodeStrings: false})`。
 
@@ -364,9 +364,9 @@ Classic流是一个古老的接口，最早出现在node 0.4中。虽然现在�
 
 ###classic readable流  
 
-Classic readable流只是一个事件发射器，当有数据消耗者出现时发射`emit`事件，当输出数据完毕时发射`end`事件。
+Classic readable流只是一个事件发射器，当有数据消耗者出现时发射`data`事件，当输出数据完毕时发射`end`事件。
 
-我们可以同构检查`stream.readable`来检查一个classic流对象是否可读。 
+我们可以通过检查`stream.readable`来检查一个classic流对象是否可读。 
 
 下面是一个简单的readable流对象的例子，程序的运行结果将会输出`A`到`J`：
 
