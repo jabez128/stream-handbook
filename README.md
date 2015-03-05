@@ -450,7 +450,7 @@ Classic writable流非常简单。其中只定义了`.write(buf)`，`.end(buf)`�
 ##接下来读什么  
 
  - node核心stream模块文档  
- - 你可以使用readable-stream模块来确保你的stream2代码兼容node 0.8及其之前的代码。在你`npm install readable-stream`之后直接`reauire('readable-stream')`而不要`require('stream')`。
+ - 你可以使用readable-stream模块来确保你的stream2代码兼容node 0.8及其之前的代码。在你`npm install readable-stream`之后直接`require('readable-stream')`而不要`require('stream')`。
 
 ------------
 本文参考自stream-handbook，原文地址https://github.com/substack/stream-handbook
