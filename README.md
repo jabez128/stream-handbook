@@ -13,11 +13,11 @@ stream-handbook的完整中文版本
 
 ![](https://camo.githubusercontent.com/da881d7ab5e9ae8fdcd4f6a11a999a8040d00930/687474703a2f2f737562737461636b2e6e65742f696d616765732f6d63696c726f792e706e67)
 
-从unix开始，stream便开始进入了人们的视野，在过去的几十年的时间里，它被证明是一种可以可依赖的编程方式，它可以将一个大型的系统拆成一些很小的部分，并且让这些部分之间完美的进行合作。在unix中，我们可以使用`|`符号来实现流。在node中，node的内建stream模块已经被多个核心模块使用，同时也可以被用户自定义的模块使用。和unix类似，node中的流模块的基本操作符叫做`.pipe()`，同时你也可以使用一个后压机制来应对那些对数据消耗较慢的对象。
+从[早先的unix](http://www.youtube.com/watch?v=tc4ROCJYbm0)开始，stream便开始进入了人们的视野，在过去的几十年的时间里，它被证明是一种可以可依赖的编程方式，它可以将一个大型的系统拆成一些很小的部分，并且让这些部分之间完美的进行合作。在unix中，我们可以使用`|`符号来实现流。在node中，node内置的[stream模块](http://nodejs.org/docs/latest/api/stream.html)已经被多个核心模块使用，同时也可以被用户自定义的模块使用。和unix类似，node中的流模块的基本操作符叫做`.pipe()`，同时你也可以使用一个后压机制来应对那些对数据消耗较慢的对象。
 
 在node中，流可以帮助我们将事情的重点分为几份，因为使用流可以帮助我们将实现接口的部分分割成一些连续的接口，这些接口都是可重用的。接着，你可以将一个流的输出口接到另一个流的输入口，然后使用使用一些库来对流实现高级别的控制。
 
-对于小型程序设计(small-program design)以及unix哲学来说，流都是一个重要的主城部分，但是除此之外还有一些重要的事情值得我们思考。永远要记得：十鸟在森林不如一鸟在手里。
+对于小型程序设计(small-program design)以及unix哲学来说，流都是一个重要的组成部分，但是除此之外还有一些重要的事情值得我们思考。永远要记得：十鸟在森林不如一鸟在手里。
 
 ![](https://camo.githubusercontent.com/2b96521b7dab80dc7b850c7e5c2aea752bdf874d/687474703a2f2f737562737461636b2e6e65742f696d616765732f6b65726e696768616e2e706e67)
 
@@ -449,8 +449,8 @@ Classic writable流非常简单。其中只定义了`.write(buf)`，`.end(buf)`�
 
 ##接下来读什么  
 
- - node核心stream模块文档  
- - 你可以使用readable-stream模块来确保你的stream2代码兼容node 0.8及其之前的代码。在你`npm install readable-stream`之后直接`require('readable-stream')`而不要`require('stream')`。
+ - [node核心stream模块文档](http://nodejs.org/docs/latest/api/stream.html#stream_stream)
+ - 你可以使用[readable-stream]((https://npmjs.org/package/readable-stream))模块来确保你的stream2代码兼容node 0.8及其之前的代码。在你`npm install readable-stream`之后直接`require('readable-stream')`而不要`require('stream')`。
 
 ------------
 本文参考自stream-handbook，原文地址https://github.com/substack/stream-handbook
