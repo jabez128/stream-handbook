@@ -13,7 +13,7 @@ stream-handbook的完整中文版本
 
 ![](https://camo.githubusercontent.com/da881d7ab5e9ae8fdcd4f6a11a999a8040d00930/687474703a2f2f737562737461636b2e6e65742f696d616765732f6d63696c726f792e706e67)
 
-从[早先的unix](http://www.youtube.com/watch?v=tc4ROCJYbm0)开始，stream便开始进入了人们的视野，在过去的几十年的时间里，它被证明是一种可依赖的编程方式，它可以将一个大型的系统拆成一些很小的部分，并且让这些部分之间完美的进行合作。在unix中，我们可以使用`|`符号来实现流。在node中，node内置的[stream模块](http://nodejs.org/docs/latest/api/stream.html)已经被多个核心模块使用，同时也可以被用户自定义的模块使用。和unix类似，node中的流模块的基本操作符叫做`.pipe()`，同时你也可以使用一个后压机制来应对那些对数据消耗较慢的对象。
+从[早先的unix](http://www.youtube.com/watch?v=tc4ROCJYbm0)开始，stream便开始进入了人们的视野，在过去的几十年的时间里，它被证明是一种可依赖的编程方式，它可以将一个大型的系统拆成一些很小的部分，并且让这些部分之间完美地进行合作。在unix中，我们可以使用`|`符号来实现流。在node中，node内置的[stream模块](http://nodejs.org/docs/latest/api/stream.html)已经被多个核心模块使用，同时也可以被用户自定义的模块使用。和unix类似，node中的流模块的基本操作符叫做`.pipe()`，同时你也可以使用一个后压机制来应对那些对数据消耗较慢的对象。
 
 在node中，流可以帮助我们将事情的重点分为几份，因为使用流可以帮助我们将实现接口的部分分割成一些连续的接口，这些接口都是可重用的。接着，你可以将一个流的输出口接到另一个流的输入口，然后使用使用一些库来对流实现高级别的控制。
 
