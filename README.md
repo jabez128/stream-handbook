@@ -5,7 +5,7 @@ stream-handbook的完整中文版本
 
 #nodejs stream 手册
 >写在前面的话:
->如果你正在学习Nodejs，那么流一定是一个你需要掌握的概念。如果你想成为一个Node高手，那么流一定是武功秘籍中不可缺少的一个部分。关于流这个主题，由Node高手substack带来的`stream-handbook`绝对是经典入门读物之一，其在Github上的star数量已经超过了4500个，足以见其权威程度。本文下面的内容将参考自substak的[这篇文章](https://github.com/substack/stream-handbook)。本文也放在Github上，如果你本文觉得对你有帮助，鼓励大家去github上帮我点个赞。[https://github.com/jabez128/stream-handbook](https://github.com/jabez128/stream-handbook)
+>如果你正在学习Nodejs，那么流一定是一个你需要掌握的概念。如果你想成为一个Node高手，那么流一定是武功秘籍中不可缺少的一个部分。关于流这个主题，由Node高手substack带来的`stream-handbook`绝对是经典入门读物之一，其在Github上的star数量已经超过了4500个，足以见其权威程度。本文下面的内容将参考自substack的[这篇文章](https://github.com/substack/stream-handbook)。本文也放在Github上，如果你本文觉得对你有帮助，鼓励大家去github上帮我点个赞。[https://github.com/jabez128/stream-handbook](https://github.com/jabez128/stream-handbook)
 
 
 #引子
