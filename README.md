@@ -9,7 +9,7 @@ stream-handbook的完整中文版本
 
 
 #引子
->在编写代码时，我们应该有一些方法将程序像连接水管一样连接起来 -- 当我们需要获取一些数据时，可以去通过"拧"其他的部分来达到目的。这也应该是IO应有的方式。 -- [Doug McIlroy. October 11, 1964](http://cm.bell-labs.com/who/dmr/mdmpipe.html)
+>在编写代码时，我们应该有一些方法将程序像连接水管一样连接起来 -- 当我们需要获取一些数据时，可以去通过"拧"其他的部分来达到目的。这也应该是IO应有的方式。 -- [Doug McIlroy. October 11, 1964](https://www.bell-labs.com/usr/dmr/www/mdmpipe.html)
 
 ![](https://camo.githubusercontent.com/da881d7ab5e9ae8fdcd4f6a11a999a8040d00930/687474703a2f2f737562737461636b2e6e65742f696d616765732f6d63696c726f792e706e67)
 
