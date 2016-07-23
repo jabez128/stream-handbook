@@ -49,7 +49,7 @@ stream-handbook的完整中文版本
 	    stream.pipe(res);
 	});
 	server.listen(8000);
-	
+
 在这里，`.pipe()`方法会自动帮助我们监听`data`和`end`事件。上面的这段代码不仅简洁，而且`data.txt`文件中每一小段数据都将源源不断的发送到客户端。
 
 除此之外，使用`.pipe()`方法还有别的好处，比如说它可以自动控制后端压力，以便在客户端连接缓慢的时候node可以将尽可能少的缓存放到内存中。
@@ -65,7 +65,7 @@ stream-handbook的完整中文版本
 	    stream.pipe(oppressor(req)).pipe(res);
 	});
 	server.listen(8000);
-	
+
 通过上面的代码，我们成功的将发送到浏览器端的数据进行了gzip压缩。我们只是使用了一个oppressor模块来处理这件事情。
 
 一旦你学会使用流api，你可以将这些流模块像搭乐高积木或者像连接水管一样拼凑起来，从此以后你可能再也不会去使用那些没有流API的模块获取和推送数据了。
@@ -91,7 +91,7 @@ stream-handbook的完整中文版本
 	a.pipe(b);
 	b.pipe(c);
 	c.pipe(d);
-	
+
 这和你在unix中编写流代码很类似：
 
 	a | b | c | d
@@ -175,13 +175,13 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 	    console.error('\n_read() called ' + (c - 97) + ' times');
 	});
 	process.stdout.on('error', process.exit);
-	
+
 运行上面的代码我们可以发现如果我们只请求5比特的数据，那么`_read`只会运行5次：
 
 	$ node read2.js | head -c5
 	abcde
 	_read() called 5 times
-	
+
 在上面的代码中，`setTimeout`很重要，因为操作系统需要花费一些时间来发送程序结束信号。
 
 另外,`process.stdout.on('error',fn)`处理器也很重要，因为当`head`不再关心我们的程序输出时，操作系统将会向我们的进程发送一个`SIGPIPE`信号，此时`process.stdout`将会捕获到一个`EPIPE`错误。
@@ -198,10 +198,10 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 	    var buf = process.stdin.read();
 	    console.dir(buf);
 	});
-	
+
 代码运行结果如下所示：
 
-	$ (echo abc; sleep 1; echo def; sleep 1; echo ghi) | node consume0.js 
+	$ (echo abc; sleep 1; echo def; sleep 1; echo ghi) | node consume0.js
 	<Buffer 61 62 63 0a>
 	<Buffer 64 65 66 0a>
 	<Buffer 67 68 69 0a>
@@ -219,14 +219,14 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 	    var buf = process.stdin.read(3);
 	    console.dir(buf);
 	});
-	
+
 运行上面的例子，我们将获取到不完整的数据:
 
-	$ (echo abc; sleep 1; echo def; sleep 1; echo ghi) | node consume1.js 
+	$ (echo abc; sleep 1; echo def; sleep 1; echo ghi) | node consume1.js
 	<Buffer 61 62 63>
 	<Buffer 0a 64 65>
 	<Buffer 66 0a 67>
-	
+
 这是因为多余的数据都留在了内部的缓存中，因此这个时候我们需要告诉node我们还对剩下的数据感兴趣，我们可以使用`.read(0)`来完成这件事：
 
 	process.stdin.on('readable', function () {
@@ -234,15 +234,15 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 	    console.dir(buf);
 	    process.stdin.read(0);
 	});
-	
+
 到现在为止我们的代码和我们所期望的一样了！
 
-	$ (echo abc; sleep 1; echo def; sleep 1; echo ghi) | node consume2.js 
+	$ (echo abc; sleep 1; echo def; sleep 1; echo ghi) | node consume2.js
 	<Buffer 61 62 63>
 	<Buffer 0a 64 65>
 	<Buffer 66 0a 67>
 	<Buffer 68 69 0a>
-	
+
 我们也可以使用`.unshift()`方法来放置多余的数据。
 
 使用`unshift()`方法能够放置我们进行不必要的缓存拷贝。在下面的代码中我们将创建一个分割新行的可读解析器:
@@ -263,10 +263,10 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 	    }
 	    process.stdin.unshift(buf);
 	});
-	
+
 代码的运行结果如下所示：
 
-	$ tail -n +50000 /usr/share/dict/american-english | head -n10 | node lines.js 
+	$ tail -n +50000 /usr/share/dict/american-english | head -n10 | node lines.js
 	'hearties'
 	'heartiest'
 	'heartily'
@@ -277,7 +277,7 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 	'heartlands'
 	'heartless'
 	'heartlessly'
-	
+
 当然，已经有很多这样的模块比如split来帮助你完成这件事情，你完全不需要自己写一个。
 
 ##writable流
@@ -285,7 +285,7 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 一个writable流指的是只能流进不能流出的流:
 
 	src.pipe(writableStream)
-	
+
 ###创建一个writable流  
 
 只需要定义一个`._write(chunk,enc,next)`函数，你就可以将一个readable流的数据释放到其中：
@@ -298,10 +298,10 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 	};
 
 	process.stdin.pipe(ws);
-	
+
 代码运行结果如下所示：
 
-	$ (echo beep; sleep 1; echo boop) | node write0.js 
+	$ (echo beep; sleep 1; echo boop) | node write0.js
 	<Buffer 62 65 65 70 0a>
 	<Buffer 62 6f 6f 70 0a>
 
@@ -321,7 +321,7 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 如果你需要向一个writable流中写东西，只需要调用`.write(data)`即可。
 
 	process.stdout.write('beep boop\n');
-	
+
 为了告诉一个writable流你已经写完毕了，只需要调用`.end()`方法。你也可以使用`.end(data)`在结束前再写一些数据。
 
 	var fs = require('fs');
@@ -332,16 +332,16 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 	setTimeout(function () {
 	    ws.end('boop\n');
 	}, 1000);
-	
+
 运行结果如下所示:
 
-	$ node writing1.js 
+	$ node writing1.js
 	$ cat message.txt
 	beep boop
 
-如果你在创建writable流时指定了`highWaterMark`参数，那么当没有更多数据写入时，调用`.write()`方法将会返回false。
+如果你在创建writable流时指定了`highWaterMark`参数，在内部的可写缓冲区中的数据量大于`highWaterMark`时，`.write()`方法将会返回false。
 
-如果你想要等待缓存情况，可以监听`drain`事件。  
+如果你想要等待到内部可写缓存为空时，可以监听`drain`事件。  
 
 ##transform流  
 
@@ -349,8 +349,8 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 
 ##duplex流  
 
-Duplex流是一个可读也可写的流，就好像一个电话，可以接收也可以发送语音。一个rpc交换是一个duplex流的最好的例子。如果你看到过下面这样的代码：	
-	
+Duplex流是一个可读也可写的流，就好像一个电话，可以接收也可以发送语音。一个rpc交换是一个duplex流的最好的例子。如果你看到过下面这样的代码：
+
 	a.pipe(b).pipe(a)
 
 那么你需要处理的就是一个duplex流对象。
@@ -366,7 +366,7 @@ Classic流是一个古老的接口，最早出现在node 0.4中。虽然现在�
 
 Classic readable流只是一个事件发射器，当有数据消耗者出现时发射`emit`事件，当输出数据完毕时发射`end`事件。
 
-我们可以同构检查`stream.readable`来检查一个classic流对象是否可读。 
+我们可以同构检查`stream.readable`来检查一个classic流对象是否可读。
 
 下面是一个简单的readable流对象的例子，程序的运行结果将会输出`A`到`J`：
 
@@ -389,7 +389,7 @@ Classic readable流只是一个事件发射器，当有数据消耗者出现时�
 
 	$ node classic0.js
 	ABCDEFGHIJ
-	
+
 为了从一个classic readable流中读取数据，你可以注册`data`和`end`监听器。下面是一个使用旧readable流方式从`process.stdin`中读取数据的例子:
 
 	process.stdin.on('data', function (buf) {
@@ -399,9 +399,9 @@ Classic readable流只是一个事件发射器，当有数据消耗者出现时�
 	    console.log('__END__');
 	});
 
-运行结果如下所示: 
+运行结果如下所示:
 
-	$ (echo beep; sleep 1; echo boop) | node classic1.js 
+	$ (echo beep; sleep 1; echo boop) | node classic1.js
 	<Buffer 62 65 65 70 0a>
 	<Buffer 62 6f 6f 70 0a>
 	__END__
@@ -421,10 +421,10 @@ Classic readable流只是一个事件发射器，当有数据消耗者出现时�
 	function end () {
 	    console.log('__END__');
 	}
-	
-程序运行结果如下所示: 
 
-	$ (echo beep; sleep 1; echo boop) | node through.js 
+程序运行结果如下所示:
+
+	$ (echo beep; sleep 1; echo boop) | node through.js
 	<Buffer 62 65 65 70 0a>
 	<Buffer 62 6f 6f 70 0a>
 	__END__
@@ -435,10 +435,10 @@ Classic readable流只是一个事件发射器，当有数据消耗者出现时�
 	process.stdin.pipe(concat(function (body) {
 	    console.log(JSON.parse(body));
 	}));
-	
+
 程序运行结果如下所示:
 
-	$ echo '{"beep":"boop"}' | node concat.js 
+	$ echo '{"beep":"boop"}' | node concat.js
 	{ beep: 'boop' }
 
 Classic readable流拥有`.pause()`和`.resume()`逻辑来暂停一个流，但是这都是可选的。如果你想要使用`.pause()`和`.resume()`方法，你应该使用through模块来帮助你处理缓存。  
