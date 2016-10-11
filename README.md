@@ -214,12 +214,12 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 你也可以告诉`.read()`方法来返回`n`个字节的数据。虽然所有核心对象中的流都支持这种方式，但是对于对象流来说这种方法并不可用。
 
 下面是一个例子，在这里我们制定每次读取3个字节的数据：
-
+```javascript
 	process.stdin.on('readable', function () {
 	    var buf = process.stdin.read(3);
 	    console.dir(buf);
 	});
-	
+```	
 运行上面的例子，我们将获取到不完整的数据:
 
 	$ (echo abc; sleep 1; echo def; sleep 1; echo ghi) | node consume1.js 
@@ -228,13 +228,13 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 	<Buffer 66 0a 67>
 	
 这是因为多余的数据都留在了内部的缓存中，因此这个时候我们需要告诉node我们还对剩下的数据感兴趣，我们可以使用`.read(0)`来完成这件事：
-
+```javascript
 	process.stdin.on('readable', function () {
 	    var buf = process.stdin.read(3);
 	    console.dir(buf);
 	    process.stdin.read(0);
 	});
-	
+```	
 到现在为止我们的代码和我们所期望的一样了！
 
 	$ (echo abc; sleep 1; echo def; sleep 1; echo ghi) | node consume2.js 
@@ -246,7 +246,7 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 我们也可以使用`.unshift()`方法来放置多余的数据。
 
 使用`unshift()`方法能够放置我们进行不必要的缓存拷贝。在下面的代码中我们将创建一个分割新行的可读解析器:
-
+```javascript
 	var offset = 0;
 
 	process.stdin.on('readable', function () {
@@ -263,7 +263,7 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 	    }
 	    process.stdin.unshift(buf);
 	});
-	
+```	
 代码的运行结果如下所示：
 
 	$ tail -n +50000 /usr/share/dict/american-english | head -n10 | node lines.js 
@@ -289,7 +289,7 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 ###创建一个writable流  
 
 只需要定义一个`._write(chunk,enc,next)`函数，你就可以将一个readable流的数据释放到其中：
-
+```javascript
 	var Writable = require('stream').Writable;
 	var ws = Writable();
 	ws._write = function (chunk, enc, next) {
@@ -298,7 +298,7 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 	};
 
 	process.stdin.pipe(ws);
-	
+```	
 代码运行结果如下所示：
 
 	$ (echo beep; sleep 1; echo boop) | node write0.js 
@@ -319,11 +319,11 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 ###向一个writable流中写东西  
 
 如果你需要向一个writable流中写东西，只需要调用`.write(data)`即可。
-
+```javascript
 	process.stdout.write('beep boop\n');
-	
+```	
 为了告诉一个writable流你已经写完毕了，只需要调用`.end()`方法。你也可以使用`.end(data)`在结束前再写一些数据。
-
+```javascript
 	var fs = require('fs');
 	var ws = fs.createWriteStream('message.txt');
 
@@ -332,7 +332,7 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 	setTimeout(function () {
 	    ws.end('boop\n');
 	}, 1000);
-	
+```	
 运行结果如下所示:
 
 	$ node writing1.js 
@@ -369,7 +369,7 @@ Classic readable流只是一个事件发射器，当有数据消耗者出现时�
 我们可以同构检查`stream.readable`来检查一个classic流对象是否可读。 
 
 下面是一个简单的readable流对象的例子，程序的运行结果将会输出`A`到`J`：
-
+```javascript
 	var Stream = require('stream');
 	var stream = new Stream;
 	stream.readable = true;
@@ -384,21 +384,21 @@ Classic readable流只是一个事件发射器，当有数据消耗者出现时�
 	}, 100);
 
 	stream.pipe(process.stdout);
-
+```
 运行结果如下所示:
 
 	$ node classic0.js
 	ABCDEFGHIJ
 	
 为了从一个classic readable流中读取数据，你可以注册`data`和`end`监听器。下面是一个使用旧readable流方式从`process.stdin`中读取数据的例子:
-
+```javascript
 	process.stdin.on('data', function (buf) {
 	    console.log(buf);
 	});
 	process.stdin.on('end', function () {
 	    console.log('__END__');
 	});
-
+```
 运行结果如下所示: 
 
 	$ (echo beep; sleep 1; echo boop) | node classic1.js 
@@ -411,7 +411,7 @@ Classic readable流只是一个事件发射器，当有数据消耗者出现时�
 如果你自己创建流对象，永远不要绑定`data`和`end`监听器。如果你需要和旧版本的流兼容，最好使用第三方库来实现`.pipe()`方法。
 
 例如，你可以使用through模块来避免显式的使用`data`和`end`监听器:  
-
+```javascript
 	var through = require('through');
 	process.stdin.pipe(through(write, end));
 
@@ -421,7 +421,7 @@ Classic readable流只是一个事件发射器，当有数据消耗者出现时�
 	function end () {
 	    console.log('__END__');
 	}
-	
+```	
 程序运行结果如下所示: 
 
 	$ (echo beep; sleep 1; echo boop) | node through.js 
@@ -430,12 +430,12 @@ Classic readable流只是一个事件发射器，当有数据消耗者出现时�
 	__END__
 
 你也可以使用concat-stream模块来将整个流的内容缓存起来:  
-
+```javascript
 	var concat = require('concat-stream');
 	process.stdin.pipe(concat(function (body) {
 	    console.log(JSON.parse(body));
 	}));
-	
+```	
 程序运行结果如下所示:
 
 	$ echo '{"beep":"boop"}' | node concat.js 
