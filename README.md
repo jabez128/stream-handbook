@@ -339,9 +339,9 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 	$ cat message.txt
 	beep boop
 
-如果你在创建writable流时指定了`highWaterMark`参数，那么当没有更多数据写入时，调用`.write()`方法将会返回false。
+如果你在创建writable流时指定了`highWaterMark`参数，当你调用`.write()`函数并导致writable流内部的缓冲数据长度超出`highWaterMark`时，`.write()`便会返回false。
 
-如果你想要等待缓存情况，可以监听`drain`事件。  
+如果你想要等待缓冲区已满的writable流回到缓冲区清空状态，可以监听`drain`事件。  
 
 ##transform流  
 
