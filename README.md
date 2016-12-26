@@ -339,11 +339,11 @@ Readable流可以产出数据，你可以将这些数据传送到一个writable�
 	$ cat message.txt
 	beep boop
 
-如果你在创建writable流时指定了`highWaterMark`参数，那么当没有更多数据写入时，调用`.write()`方法将会返回false。
+如果你需要调整内部缓冲区大小，那么需要在创建可写流对象时设置`highWaterMark`。在调用`.write()`方法返回false时，说明写入的数据大小超过了该值。
 
-如果你想要等待缓存情况，可以监听`drain`事件。  
+为了避免读写速率不匹配而造成内存上涨，可以监听`drain`事件，等待可写流内部缓存被清空再继续写入。
 
-##transform流  
+##transform流  
 
 你可以将transform流想象成一个流的中间部分，它可以读也可写，但是并不保存数据，它只负责处理流经它的数据。  
 
