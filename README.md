@@ -443,11 +443,11 @@ Classic readable流只是一个事件发射器，当有数据消耗者出现时�
 
 Classic readable流拥有`.pause()`和`.resume()`逻辑来暂停一个流，但是这都是可选的。如果你想要使用`.pause()`和`.resume()`方法，你应该使用through模块来帮助你处理缓存。  
 
-###classic writable流  
+#### classic writable流  
 
 Classic writable流非常简单。其中只定义了`.write(buf)`，`.end(buf)`，以及`.desctory()`方法。其中`.end(buf)`的参数buf是可选参数，但是一般来说node程序员还是喜欢使用`.end(buf)`这种写法。  
 
-##接下来读什么  
+## 接下来读什么  
 
  - [node核心stream模块文档](http://nodejs.org/docs/latest/api/stream.html#stream_stream)
  - 你可以使用[readable-stream]((https://npmjs.org/package/readable-stream))模块来确保你的stream2代码兼容node 0.8及其之前的代码。在你`npm install readable-stream`之后直接`require('readable-stream')`而不要`require('stream')`。
