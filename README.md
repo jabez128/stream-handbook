@@ -1,13 +1,15 @@
 # stream-handbook
 
-stream-handbook 的完整中文版本
+nodejs stream 手册(完整中文版本)
 
-## nodejs stream 手册
+---
+
+## 前言
 
 > 写在前面的话:
 > 如果你正在学习 Nodejs，那么流一定是一个你需要掌握的概念。如果你想成为一个 Node 高手，那么流一定是武功秘籍中不可缺少的一个部分。关于流这个主题，由 Node 高手 substack 带来的`stream-handbook`绝对是经典入门读物之一，其在 Github 上的 star 数量已经超过了 4500 个，足以见其权威程度。本文下面的内容将参考自 substack 的[这篇文章](https://github.com/substack/stream-handbook)。本文也放在 Github 上，如果你本文觉得对你有帮助，鼓励大家去 github 上帮我点个赞。[https://github.com/jabez128/stream-handbook](https://github.com/jabez128/stream-handbook)
 
-### 引子
+## 引子
 
 > 在编写代码时，我们应该有一些方法将程序像连接水管一样连接起来 -- 当我们需要获取一些数据时，可以去通过"拧"其他的部分来达到目的。这也应该是 IO 应有的方式。 -- [Doug McIlroy. October 11, 1964](https://www.bell-labs.com/usr/dmr/www/mdmpipe.html)
 
@@ -21,7 +23,7 @@ stream-handbook 的完整中文版本
 
 ![](https://camo.githubusercontent.com/2b96521b7dab80dc7b850c7e5c2aea752bdf874d/687474703a2f2f737562737461636b2e6e65742f696d616765732f6b65726e696768616e2e706e67)
 
-### 为什么应该使用流
+## 为什么应该使用流
 
 在 node 中，I/O 都是异步的，所以在和硬盘以及网络的交互过程中会涉及到传递回调函数的过程。你之前可能会写出这样的代码：
 
@@ -76,11 +78,11 @@ stream-handbook 的完整中文版本
 
 一旦你学会使用流 api，你可以将这些流模块像搭乐高积木或者像连接水管一样拼凑起来，从此以后你可能再也不会去使用那些没有流 API 的模块获取和推送数据了。
 
-### 流模块基础
+## 流模块基础
 
 在 node 中，一共有五种类型的流：readable,writable,transform,duplex 以及"classic"
 
-#### pipe
+### pipe
 
 无论哪一种流，都会使用`.pipe()`方法来实现输入和输出。
 
@@ -112,7 +114,7 @@ stream-handbook 的完整中文版本
 
 只不过此时你是在 node 中编写而不是在 shell 中！
 
-#### readable 流
+### readable 流
 
 Readable 流可以产出数据，你可以将这些数据传送到一个 writable，transform 或者 duplex 流中，只需要调用`pipe()`方法:
 
@@ -120,7 +122,7 @@ Readable 流可以产出数据，你可以将这些数据传送到一个 writabl
     readableStream.pipe(dst)
 ```
 
-##### 创建一个 readable 流
+#### 创建一个 readable 流
 
 现在我们就来创建一个 readable 流！
 
@@ -218,7 +220,7 @@ Readable 流可以产出数据，你可以将这些数据传送到一个 writabl
 
 如果你创建了一个 readable 流，并且想要将任何的值推送到其中的话，确保你在创建流的时候指定了 objectMode 参数,`Readable({ objectMode: true })`。
 
-##### 消耗一个 readable 流
+#### 消耗一个 readable 流
 
 大部分时候，将一个 readable 流直接 pipe 到另一种类型的流或者使用 through 或者 concat-stream 创建的流中，是一件很容易的事情。但是有时我们也会需要直接来消耗一个 readable 流。
 
@@ -324,7 +326,7 @@ Readable 流可以产出数据，你可以将这些数据传送到一个 writabl
 
 当然，已经有很多这样的模块比如 split 来帮助你完成这件事情，你完全不需要自己写一个。
 
-#### writable 流
+### writable 流
 
 一个 writable 流指的是只能流进不能流出的流:
 
@@ -332,7 +334,7 @@ Readable 流可以产出数据，你可以将这些数据传送到一个 writabl
     src.pipe(writableStream)
 ```
 
-##### 创建一个 writable 流
+#### 创建一个 writable 流
 
 只需要定义一个`._write(chunk,enc,next)`函数，你就可以将一个 readable 流的数据释放到其中：
 
@@ -365,7 +367,7 @@ Readable 流可以产出数据，你可以将这些数据传送到一个 writabl
 
 如果你需要传递对象，需要指定`objectMode`参数为`true`，`Writable({ objectMode: true })`。
 
-##### 向一个 writable 流中写东西
+#### 向一个 writable 流中写东西
 
 如果你需要向一个 writable 流中写东西，只需要调用`.write(data)`即可。
 
@@ -398,11 +400,11 @@ Readable 流可以产出数据，你可以将这些数据传送到一个 writabl
 
 为了避免读写速率不匹配而造成内存上涨，可以监听`drain`事件，等待可写流内部缓存被清空再继续写入。
 
-#### transform 流
+### transform 流
 
 你可以将 transform 流想象成一个流的中间部分，它可以读也可写，但是并不保存数据，它只负责处理流经它的数据。
 
-#### duplex 流
+### duplex 流
 
 Duplex 流是一个可读也可写的流，就好像一个电话，可以接收也可以发送语音。一个 rpc 交换是一个 duplex 流的最好的例子。如果你看到过下面这样的代码：
 
@@ -412,13 +414,13 @@ Duplex 流是一个可读也可写的流，就好像一个电话，可以接收�
 
 那么你需要处理的就是一个 duplex 流对象。
 
-#### classic 流
+### classic 流
 
 Classic 流是一个古老的接口，最早出现在 node 0.4 中。虽然现在不怎么用，但是我们最好还是来了解一下它的工作原理。
 
 无论何时，只要一个流对象注册了一个`data`监听器，它就会自动的切换到`classic`模式，并且根据旧 API 的方式运行。
 
-##### classic readable 流
+#### classic readable 流
 
 Classic readable 流只是一个事件发射器，当有数据消耗者出现时发射`emit`事件，当输出数据完毕时发射`end`事件。
 
@@ -513,11 +515,11 @@ Classic readable 流只是一个事件发射器，当有数据消耗者出现时
 
 Classic readable 流拥有`.pause()`和`.resume()`逻辑来暂停一个流，但是这都是可选的。如果你想要使用`.pause()`和`.resume()`方法，你应该使用 through 模块来帮助你处理缓存。
 
-##### classic writable 流
+#### classic writable 流
 
 Classic writable 流非常简单。其中只定义了`.write(buf)`，`.end(buf)`，以及`.desctory()`方法。其中`.end(buf)`的参数 buf 是可选参数，但是一般来说 node 程序员还是喜欢使用`.end(buf)`这种写法。
 
-### 接下来读什么
+## 接下来读什么
 
 * [node 核心 stream 模块文档](http://nodejs.org/docs/latest/api/stream.html#stream_stream)
 * 你可以使用[readable-stream](<(https://npmjs.org/package/readable-stream)>)模块来确保你的 stream2 代码兼容 node 0.8 及其之前的代码。在你`npm install readable-stream`之后直接`require('readable-stream')`而不要`require('stream')`。
