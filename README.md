@@ -445,7 +445,7 @@ Classic readable流拥有`.pause()`和`.resume()`逻辑来暂停一个流，但�
 
 #### classic writable流  
 
-Classic writable流非常简单。其中只定义了`.write(buf)`，`.end(buf)`，以及`.desctory()`方法。其中`.end(buf)`的参数buf是可选参数，但是一般来说node程序员还是喜欢使用`.end(buf)`这种写法。  
+Classic writable流非常简单。其中只定义了`.write(buf)`，`.end(buf)`，以及`.destroy()`方法。其中`.end(buf)`的参数buf是可选参数，但是一般来说node程序员还是喜欢使用`.end(buf)`这种写法。  
 
 ## 接下来读什么  
 
